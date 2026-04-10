@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, Brain, FolderGit2, LayoutGrid, Library } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -15,6 +15,9 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as secretaryIndex } from '@/routes/secretary/chat';
+import { index as skillsIndex } from '@/routes/secretary/skills';
+import { index as memoriesIndex } from '@/routes/secretary/memories';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -22,6 +25,24 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+];
+
+const secretaryNavItems: NavItem[] = [
+    {
+        title: 'Chat',
+        href: secretaryIndex(),
+        icon: Brain,
+    },
+    {
+        title: 'Skills',
+        href: skillsIndex(),
+        icon: Library,
+    },
+    {
+        title: 'Memory',
+        href: memoriesIndex(),
+        icon: BookOpen,
     },
 ];
 
@@ -55,6 +76,7 @@ const footerNavItems: NavItem[] = [
 
         <SidebarContent>
             <NavMain :items="mainNavItems" />
+            <NavMain :items="secretaryNavItems" label="Secretary" />
         </SidebarContent>
 
         <SidebarFooter>
@@ -64,3 +86,4 @@ const footerNavItems: NavItem[] = [
     </Sidebar>
     <slot />
 </template>
+

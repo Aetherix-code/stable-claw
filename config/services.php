@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'allowed_username' => env('TELEGRAM_ALLOWED_USERNAME'),
+    ],
+
+    'chrome' => [
+        'binary' => env('CHROME_BINARY', 'google-chrome'),
+    ],
+
 ];
