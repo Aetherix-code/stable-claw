@@ -142,7 +142,7 @@ class HeadlessBrowserTool extends Tool implements NeedsConversationContext
 
         $factory = new BrowserFactory($chromeBinary);
         $browser = $factory->createBrowser([
-            'headless' => false,
+            'headless' => true,
             'noSandbox' => true,
             'keepAlive' => true,
             'windowSize' => [1920, 1080],
