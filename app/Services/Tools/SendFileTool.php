@@ -16,7 +16,7 @@ class SendFileTool extends Tool
 
     public function description(): string
     {
-        return 'Save content as a downloadable file and give the user a download link. Use this whenever you need to deliver any file to the user — CSV exports, JSON data, text reports, generated HTML, API response dumps, etc. Content can be provided as a plain UTF-8 string or as a base64-encoded binary. The user will see a download button in the chat.';
+        return 'Send a file to the user for download. Provide content directly (as UTF-8 or base64) or reference a source_path from the system temp directory. Returns a download URL the user can click to save the file.';
     }
 
     public function parameters(): array

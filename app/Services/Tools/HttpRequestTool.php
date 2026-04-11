@@ -148,17 +148,29 @@ class HttpRequestTool extends Tool
 
             $saveToFile = $parameters['save_to_file'] ?? false;
 
+            $disposition = $response->header('Content-Disposition') ?? '';
+            if (! $saveToFile && preg_match('/attachment;\s*filename="?([^";\n]+)"?/i', $disposition, $matches)) {
+                $saveToFile = true;
+                $dispositionFilename = trim($matches[1]);
+            }
+
             if ($saveToFile) {
                 $tmpPath = sys_get_temp_dir().'/secretary_'.Str::uuid();
                 file_put_contents($tmpPath, $response->body());
 
-                return ToolResult::success([
+                $result = [
                     'status' => $response->status(),
                     'headers' => $response->headers(),
                     'saved_to' => $tmpPath,
                     'size_bytes' => strlen($response->body()),
                     'hint' => 'Use the send_file tool with this file path to deliver the file to the user. Read the file content with file_get_contents() or pass it as base64.',
-                ]);
+                ];
+
+                if (isset($dispositionFilename)) {
+                    $result['suggested_filename'] = $dispositionFilename;
+                }
+
+                return ToolResult::success($result);
             }
 
             $contentType = $response->header('Content-Type') ?? '';
