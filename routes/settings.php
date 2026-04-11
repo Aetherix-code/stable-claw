@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Settings\DataController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
+use App\Http\Controllers\Settings\TelegramSettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -21,4 +23,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('user-password.update');
 
     Route::inertia('settings/appearance', 'settings/Appearance')->name('appearance.edit');
+
+    Route::redirect('system', '/system/data');
+
+    Route::get('system/data', [DataController::class, 'edit'])->name('data.edit');
+    Route::get('system/data/export', [DataController::class, 'export'])->name('data.export');
+    Route::post('system/data/import', [DataController::class, 'import'])->name('data.import');
+
+    Route::get('system/telegram', [TelegramSettingsController::class, 'edit'])->name('telegram.settings.edit');
+    Route::patch('system/telegram', [TelegramSettingsController::class, 'update'])->name('telegram.settings.update');
 });

@@ -2,13 +2,24 @@
 
 namespace App\Services\Tools;
 
+use App\Models\Conversation;
+use App\Models\TelegramSetting;
+use App\Services\Tools\Contracts\NeedsConversationContext;
 use App\Services\Tools\Contracts\Tool;
 use App\Services\Tools\DTOs\ToolResult;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class SendFileTool extends Tool
+class SendFileTool extends Tool implements NeedsConversationContext
 {
+    private ?Conversation $conversation = null;
+
+    public function setConversation(Conversation $conversation): void
+    {
+        $this->conversation = $conversation;
+    }
+
     public function name(): string
     {
         return 'send_file';
@@ -88,6 +99,12 @@ class SendFileTool extends Tool
         }
 
         $safeName = Str::slug(pathinfo($filename, PATHINFO_FILENAME)).'.'.pathinfo($filename, PATHINFO_EXTENSION);
+
+        // For Telegram conversations, send the file directly via API
+        if ($this->conversation?->channel === 'telegram' && $this->conversation->telegram_chat_id) {
+            return $this->sendViaTelegram($this->conversation->telegram_chat_id, $safeName, $bytes, $parameters['mime_type'] ?? null);
+        }
+
         $path = 'secretary/files/'.Str::uuid().'/'.$safeName;
 
         Storage::disk('public')->put($path, $bytes);
@@ -95,6 +112,42 @@ class SendFileTool extends Tool
         return ToolResult::success([
             'download_url' => Storage::disk('public')->url($path),
             'download_filename' => $safeName,
+            'size_bytes' => strlen($bytes),
+        ]);
+    }
+
+    private function sendViaTelegram(string $chatId, string $filename, string $bytes, ?string $mimeType): ToolResult
+    {
+        $settings = TelegramSetting::instance();
+        $token = $settings->bot_token;
+
+        if (! $token) {
+            return ToolResult::error('Telegram bot token is not configured.');
+        }
+
+        $tmpFile = tempnam(sys_get_temp_dir(), 'tg_') ?: sys_get_temp_dir().'/tg_'.Str::random(8);
+        file_put_contents($tmpFile, $bytes);
+
+        try {
+            $response = Http::attach(
+                'document',
+                file_get_contents($tmpFile),
+                $filename,
+                ['Content-Type' => $mimeType ?? 'application/octet-stream']
+            )->post("https://api.telegram.org/bot{$token}/sendDocument", [
+                'chat_id' => $chatId,
+            ]);
+
+            if (! $response->successful()) {
+                return ToolResult::error('Failed to send file via Telegram: '.$response->body());
+            }
+        } finally {
+            @unlink($tmpFile);
+        }
+
+        return ToolResult::success([
+            'sent_via' => 'telegram',
+            'filename' => $filename,
             'size_bytes' => strlen($bytes),
         ]);
     }

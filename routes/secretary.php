@@ -4,7 +4,6 @@ use App\Http\Controllers\Secretary\ChatController;
 use App\Http\Controllers\Secretary\ConversationController;
 use App\Http\Controllers\Secretary\MemoryController;
 use App\Http\Controllers\Secretary\SkillController;
-use App\Http\Controllers\Secretary\TelegramController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,10 +35,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('secretary/memories', [MemoryController::class, 'store'])->name('secretary.memories.store');
     Route::delete('secretary/memories/{memory}', [MemoryController::class, 'destroy'])->name('secretary.memories.destroy');
 });
-
-/*
-|--------------------------------------------------------------------------
-| Telegram webhook — no auth, must verify token in controller
-|--------------------------------------------------------------------------
-*/
-Route::post('telegram/webhook', [TelegramController::class, 'webhook'])->name('telegram.webhook');

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Brain, FolderGit2, LayoutGrid, Library } from 'lucide-vue-next';
+import { BookOpen, Brain, FolderGit2, LayoutGrid, Library, Settings } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -15,6 +15,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { edit as editData } from '@/routes/data';
 import { index as secretaryIndex } from '@/routes/secretary/chat';
 import { index as skillsIndex } from '@/routes/secretary/skills';
 import { index as memoriesIndex } from '@/routes/secretary/memories';
@@ -58,6 +59,14 @@ const footerNavItems: NavItem[] = [
         icon: BookOpen,
     },
 ];
+
+const systemNavItems: NavItem[] = [
+    {
+        title: 'Settings',
+        href: editData(),
+        icon: Settings,
+    },
+];
 </script>
 
 <template>
@@ -77,6 +86,7 @@ const footerNavItems: NavItem[] = [
         <SidebarContent>
             <NavMain :items="mainNavItems" />
             <NavMain :items="secretaryNavItems" label="Secretary" />
+            <NavMain :items="systemNavItems" label="System" />
         </SidebarContent>
 
         <SidebarFooter>
