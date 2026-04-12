@@ -181,12 +181,12 @@ class HeadlessBrowserTool extends Tool implements NeedsConversationContext
     private function click(string $selector): ToolResult
     {
         $page = $this->getPage();
-        $escapedSelector = addslashes($selector);
+        $selector = addslashes($selector);
 
-        $page->mouse()->find($escapedSelector)->click();
+        $page->mouse()->find($selector)->click();
         sleep(1);
 
-        return ToolResult::success(['clicked' => $escapedSelector]);
+        return ToolResult::success(['clicked' => $selector]);
     }
 
     private function fill(string $selector, string $text): ToolResult

@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Conversation::class);
     }
+
+    public function connections(): HasMany
+    {
+        return $this->hasMany(Connection::class);
+    }
 }

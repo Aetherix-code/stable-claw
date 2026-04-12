@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Services\AI\AgentLoop;
 use App\Services\AI\AIManager;
 use App\Services\AI\LearnModeService;
+use App\Services\Connections\ConnectionManager;
 use App\Services\Tools\CurrentDateTimeTool;
 use App\Services\Tools\HeadlessBrowserTool;
 use App\Services\Tools\HttpRequestTool;
+use App\Services\Tools\MailTool;
 use App\Services\Tools\MemoryReadTool;
 use App\Services\Tools\MemoryWriteTool;
 use App\Services\Tools\ReadSkillTool;
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
             $registry->register(new StopLearnModeTool($app->make(LearnModeService::class)));
             $registry->register(new ReadSkillTool);
             $registry->register(new UpdateSkillTool);
+            $registry->register(new MailTool(new ConnectionManager));
 
             return $registry;
         });

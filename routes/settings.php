@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Settings\ConnectionController;
 use App\Http\Controllers\Settings\DataController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
@@ -32,4 +33,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('system/telegram', [TelegramSettingsController::class, 'edit'])->name('telegram.settings.edit');
     Route::patch('system/telegram', [TelegramSettingsController::class, 'update'])->name('telegram.settings.update');
+
+    Route::get('system/connections', [ConnectionController::class, 'edit'])->name('connections.edit');
+    Route::post('system/connections', [ConnectionController::class, 'store'])->name('connections.store');
+    Route::patch('system/connections/{connection}', [ConnectionController::class, 'update'])->name('connections.update');
+    Route::delete('system/connections/{connection}', [ConnectionController::class, 'destroy'])->name('connections.destroy');
+    Route::post('system/connections/{connection}/test', [ConnectionController::class, 'test'])->name('connections.test');
 });
