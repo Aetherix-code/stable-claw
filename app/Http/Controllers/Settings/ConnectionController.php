@@ -28,7 +28,7 @@ class ConnectionController extends Controller
                 'created_at' => $c->created_at->diffForHumans(),
             ]);
 
-        return Inertia::render('system/Connections', [
+        return Inertia::render('connections/Index', [
             'connections' => $connections,
         ]);
     }

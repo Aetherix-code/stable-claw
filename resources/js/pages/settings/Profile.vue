@@ -99,6 +99,19 @@ const user = computed(() => page.props.auth.user);
                 </div>
             </div>
 
+            <div class="grid gap-2">
+                <Label for="telegram_username">Telegram username</Label>
+                <Input
+                    id="telegram_username"
+                    class="mt-1 block w-full"
+                    name="telegram_username"
+                    :default-value="user.telegram_username ?? ''"
+                    autocomplete="off"
+                    placeholder="@username"
+                />
+                <InputError class="mt-2" :message="errors.telegram_username" />
+            </div>
+
             <div class="flex items-center gap-4">
                 <Button :disabled="processing" data-test="update-profile-button"
                     >Save</Button

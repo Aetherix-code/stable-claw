@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
 import DOMPurify from 'dompurify';
-import { BookOpen, Brain, Circle, MessageSquarePlus, Square, Trash2 } from 'lucide-vue-next';
+import { BookOpen, Brain, Circle, MessageSquarePlus, Send as SendIcon, Square, Trash2 } from 'lucide-vue-next';
 import { marked } from 'marked';
 import { nextTick, onMounted, ref, watch } from 'vue';
 
@@ -24,6 +24,7 @@ import { index as chatIndex } from '@/routes/secretary/chat';
 type Conversation = {
     id: number;
     title: string;
+    channel: string;
     is_learn_mode: boolean;
     updated_at: string;
 };
@@ -326,6 +327,11 @@ function toolText(msg: Message): string {
                         <span
                             v-if="conv.is_learn_mode"
                             class="size-2 shrink-0 animate-pulse rounded-full bg-red-500"
+                        />
+                        <SendIcon
+                            v-if="conv.channel === 'telegram'"
+                            class="size-3.5 shrink-0 text-blue-500"
+                            title="Telegram"
                         />
                         <span class="min-w-0 flex-1 truncate">{{ conv.title }}</span>
                     </Link>

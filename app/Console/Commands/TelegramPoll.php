@@ -101,6 +101,14 @@ class TelegramPoll extends Command
             ]
         );
 
+        // Link the Telegram chat_id to any user with a matching telegram_username
+        if ($fromUsername) {
+            User::where('telegram_username', $fromUsername)
+                ->orWhere('telegram_username', '@'.$fromUsername)
+                ->whereNull('telegram_chat_id')
+                ->update(['telegram_chat_id' => $chatId]);
+        }
+
         $conversation = $this->resolveConversation($user, $chatId, $settings);
 
         $userMessage = $conversation->messages()->create([

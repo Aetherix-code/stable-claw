@@ -17,6 +17,7 @@ trait ProfileValidationRules
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($userId),
+            'telegram_username' => ['nullable', 'string', 'max:255'],
         ];
     }
 

@@ -48,6 +48,14 @@ class TelegramController extends Controller
             return response()->json(['ok' => true]);
         }
 
+        // Link the Telegram chat_id to any user with a matching telegram_username
+        if ($fromUsername) {
+            User::where('telegram_username', $fromUsername)
+                ->orWhere('telegram_username', '@'.$fromUsername)
+                ->whereNull('telegram_chat_id')
+                ->update(['telegram_chat_id' => $chatId]);
+        }
+
         // Find or create the system user that owns all Telegram conversations
         $user = User::firstOrCreate(
             ['email' => 'telegram@secretary.local'],

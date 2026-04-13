@@ -14,7 +14,7 @@ test('edit page shows connections', function () {
     $this->get('/system/connections')
         ->assertSuccessful()
         ->assertInertia(fn ($page) => $page
-            ->component('system/Connections')
+            ->component('connections/Index')
             ->has('connections', 1)
             ->where('connections.0.name', 'Work Gmail')
         );

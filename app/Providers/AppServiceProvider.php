@@ -13,6 +13,7 @@ use App\Services\Tools\MailTool;
 use App\Services\Tools\MemoryReadTool;
 use App\Services\Tools\MemoryWriteTool;
 use App\Services\Tools\ReadSkillTool;
+use App\Services\Tools\SchedulerTool;
 use App\Services\Tools\SendFileTool;
 use App\Services\Tools\StartLearnModeTool;
 use App\Services\Tools\StopLearnModeTool;
@@ -48,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
             $registry->register(new ReadSkillTool);
             $registry->register(new UpdateSkillTool);
             $registry->register(new MailTool(new ConnectionManager));
+            $registry->register(new SchedulerTool);
 
             return $registry;
         });

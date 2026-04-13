@@ -10,3 +10,6 @@ Artisan::command('inspire', function () {
 
 // Secretary heartbeat — runs every 5 minutes to check for pending tasks
 Schedule::command('secretary:heartbeat')->everyFiveMinutes();
+
+// Dispatch due scheduled jobs every minute
+Schedule::command('secretary:dispatch-scheduled-jobs')->everyMinute();

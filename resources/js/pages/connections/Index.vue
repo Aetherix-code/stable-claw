@@ -94,9 +94,10 @@ const deleteConnection = (connection: Connection) => {
 <template>
     <Head title="Connections" />
 
-    <h1 class="sr-only">Connections</h1>
+    <div class="mx-auto w-full max-w-4xl px-4 py-6">
+        <h1 class="sr-only">Connections</h1>
 
-    <div class="space-y-6">
+        <div class="space-y-6">
         <div class="flex items-center justify-between">
             <Heading
                 variant="small"
@@ -230,6 +231,7 @@ const deleteConnection = (connection: Connection) => {
                     </div>
                 </CardContent>
             </Card>
+        </div>
         </div>
     </div>
 </template>

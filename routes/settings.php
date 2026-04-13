@@ -3,6 +3,7 @@
 use App\Http\Controllers\Settings\ConnectionController;
 use App\Http\Controllers\Settings\DataController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\Settings\ScheduledJobController;
 use App\Http\Controllers\Settings\SecurityController;
 use App\Http\Controllers\Settings\TelegramSettingsController;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('system/connections/{connection}', [ConnectionController::class, 'update'])->name('connections.update');
     Route::delete('system/connections/{connection}', [ConnectionController::class, 'destroy'])->name('connections.destroy');
     Route::post('system/connections/{connection}/test', [ConnectionController::class, 'test'])->name('connections.test');
+
+    Route::get('system/scheduled-jobs', [ScheduledJobController::class, 'index'])->name('scheduled-jobs.index');
+    Route::post('system/scheduled-jobs', [ScheduledJobController::class, 'store'])->name('scheduled-jobs.store');
+    Route::patch('system/scheduled-jobs/{scheduledJob}', [ScheduledJobController::class, 'update'])->name('scheduled-jobs.update');
+    Route::delete('system/scheduled-jobs/{scheduledJob}', [ScheduledJobController::class, 'destroy'])->name('scheduled-jobs.destroy');
+    Route::post('system/scheduled-jobs/{scheduledJob}/trigger', [ScheduledJobController::class, 'trigger'])->name('scheduled-jobs.trigger');
 });

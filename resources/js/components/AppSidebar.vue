@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Brain, FolderGit2, LayoutGrid, Library, Plug, Settings } from 'lucide-vue-next';
+import { BookOpen, Brain, CalendarClock, FolderGit2, LayoutGrid, Library, Plug, Settings } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -17,6 +17,7 @@ import {
 import { dashboard } from '@/routes';
 import { edit as editConnections } from '@/routes/connections';
 import { edit as editData } from '@/routes/data';
+import { index as scheduledJobsIndex } from '@/routes/scheduled-jobs';
 import { index as secretaryIndex } from '@/routes/secretary/chat';
 import { index as skillsIndex } from '@/routes/secretary/skills';
 import { index as memoriesIndex } from '@/routes/secretary/memories';
@@ -66,6 +67,11 @@ const systemNavItems: NavItem[] = [
         title: 'Connections',
         href: editConnections(),
         icon: Plug,
+    },
+    {
+        title: 'Scheduled Jobs',
+        href: scheduledJobsIndex(),
+        icon: CalendarClock,
     },
     {
         title: 'Settings',

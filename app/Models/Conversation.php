@@ -20,6 +20,7 @@ class Conversation extends Model
         'ai_provider',
         'is_processing',
         'skill_id',
+        'scheduled_job_id',
     ];
 
     protected function casts(): array
@@ -34,6 +35,11 @@ class Conversation extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scheduledJob(): BelongsTo
+    {
+        return $this->belongsTo(ScheduledJob::class);
     }
 
     public function messages(): HasMany

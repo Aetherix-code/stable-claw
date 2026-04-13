@@ -27,10 +27,10 @@ class ChatController extends Controller
     {
         $conversations = $request->user()
             ->conversations()
-            ->where('channel', 'web')
+            ->whereIn('channel', ['web', 'telegram'])
             ->orderByDesc('updated_at')
             ->limit(20)
-            ->get(['id', 'title', 'is_learn_mode', 'updated_at']);
+            ->get(['id', 'title', 'channel', 'is_learn_mode', 'updated_at']);
 
         return Inertia::render('secretary/Chat', [
             'conversations' => $conversations,
@@ -46,10 +46,10 @@ class ChatController extends Controller
 
         $conversations = $request->user()
             ->conversations()
-            ->where('channel', 'web')
+            ->whereIn('channel', ['web', 'telegram'])
             ->orderByDesc('updated_at')
             ->limit(20)
-            ->get(['id', 'title', 'is_learn_mode', 'updated_at']);
+            ->get(['id', 'title', 'channel', 'is_learn_mode', 'updated_at']);
 
         return Inertia::render('secretary/Chat', [
             'conversations' => $conversations,
